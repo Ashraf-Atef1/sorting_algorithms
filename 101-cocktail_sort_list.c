@@ -1,5 +1,11 @@
 #include "sort.h"
-
+/**
+ * swap - swap to list nodes then print this doubly linked list
+ * @list: A doubly linked list
+ * @first_node: first node pointer to swap
+ * @second_node: second node pointer to swap
+ * Ashraf Atef
+ */
 void swap(listint_t **list, listint_t *first_node, listint_t *second_node)
 {
 	listint_t *tmp_node = second_node->next;
