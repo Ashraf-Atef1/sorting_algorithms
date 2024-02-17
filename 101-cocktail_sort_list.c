@@ -30,10 +30,14 @@ void swap(listint_t **list, listint_t *first_node, listint_t *second_node)
  */
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *head = *list;
-	listint_t *cur_node = head, *tail = *list;
+	listint_t *head = NULL;
+	listint_t *cur_node = NULL, *tail = NULL;
 	int notSorted = 1;
 
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
+
+	head = cur_node = *list;
 	for (tail = *list; tail->next != NULL;)
 		tail = tail->next;
 	while (notSorted)
