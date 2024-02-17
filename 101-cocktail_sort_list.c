@@ -24,20 +24,19 @@ void swap(listint_t **list, listint_t *first_node, listint_t *second_node)
 	print_list(*list);
 }
 /**
- * cocktail_sort_list - Sorting a list with a cocktail_sort_list type
- * @list: A list to be sorted
+ * cocktail_sort_list_core - the core function
+ * of the cocktail_sort_list function
+ * @list: linked list
+ * @head: the head of the linked list
+ * @cur_node: the current node;
+ * @tail: the tail of the linked list
  * Ashraf Atef
  */
-void cocktail_sort_list(listint_t **list)
+void cocktail_sort_list_core(listint_t **list, listint_t *head,
+							 listint_t *cur_node, listint_t *tail)
 {
-	listint_t *head = NULL, *cur_node = NULL, *tail = NULL;
 	int notSorted = 1;
 
-	if (list == NULL || *list == NULL || (*list)->next == NULL)
-		return;
-	head = cur_node = *list;
-	for (tail = *list; tail->next != NULL;)
-		tail = tail->next;
 	while (notSorted)
 	{
 		notSorted = 0, cur_node = head;
@@ -71,4 +70,20 @@ void cocktail_sort_list(listint_t **list)
 			break;
 		tail = tail->prev, head = head->next;
 	}
+}
+/**
+ * cocktail_sort_list - Sorting a list with a cocktail_sort_list type
+ * @list: A list to be sorted
+ * Ashraf Atef
+ */
+void cocktail_sort_list(listint_t **list)
+{
+	listint_t *head = NULL, *cur_node = NULL, *tail = NULL;
+
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
+	head = cur_node = *list;
+	for (tail = *list; tail->next != NULL;)
+		tail = tail->next;
+	cocktail_sort_list_core(list, head, cur_node, tail);
 }
