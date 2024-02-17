@@ -63,7 +63,7 @@ int is_doubly_linked(const listint_t *list)
 int main(void)
 {
 	listint_t *list;
-	int array[] = {79, 47, 68, 87, 84, 91, 21, 32, 34, 2, 95, 31, 20, 22, 98, 39, 92, 41, 62, 1};
+	int array[] = {98, 95, 92, 91, 87, 84, 79, 68, 62, 47, 41, 39, 34, 32, 31, 22, 21, 20, 2, 1};
 	size_t n = sizeof(array) / sizeof(array[0]);
 
 	list = create_listint(array, n);
