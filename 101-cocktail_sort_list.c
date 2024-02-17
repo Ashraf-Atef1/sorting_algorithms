@@ -30,32 +30,39 @@ void swap(listint_t **list, listint_t *first_node, listint_t *second_node)
  */
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *l_head = list ? *list : NULL;
-	listint_t *cur_node = NULL;
+	listint_t *head = *list;
+	listint_t *cur_node = head, *tail = *list;
+	int notSorted = 1;
 
-	while (l_head != NULL)
+	for (tail = *list; tail->next != NULL;)
+		tail = tail->next;
+	while (notSorted)
 	{
-		cur_node = l_head;
-		while (cur_node)
+		notSorted = 0;
+		cur_node = head;
+		for (cur_node = head; cur_node != tail; cur_node = cur_node->next)
 		{
-			if (cur_node->next && cur_node->n > cur_node->next->n)
+			if (cur_node->n > cur_node->next->n)
 			{
+				if (cur_node->next == tail)
+					tail = cur_node;
 				swap(list, cur_node, cur_node->next);
-				continue;
+				notSorted = 1;
+				cur_node = cur_node->prev;
 			}
-			if (!cur_node->next)
-				break;
-			cur_node = cur_node->next;
 		}
-		while (cur_node)
+		for (; cur_node != head; cur_node = cur_node->prev)
 		{
-			if (cur_node->prev && cur_node->prev->n > cur_node->n)
+			if (cur_node->prev->n > cur_node->n)
 			{
+				if (cur_node->prev == head)
+					head = cur_node;
 				swap(list, cur_node->prev, cur_node);
-				continue;
+				notSorted = 1;
+				cur_node = cur_node->next;
 			}
-			cur_node = cur_node->prev;
 		}
-		l_head = l_head->next;
+		tail = tail->prev;
+		head = head->next;
 	}
 }
