@@ -28,24 +28,30 @@ void quick_sort(int *array, size_t size)
 		}
 	}
 }
+void swap(int *array, size_t size, size_t first, size_t second)
+{
+	int tmp;
+
+	if (first != second)
+	{
+		tmp = array[first];
+		array[first] = array[second];
+		array[second] = tmp;
+		print_array(array, size);
+	}
+}
 size_t partition_sort(int *array, size_t size, size_t start, size_t end)
 {
-	int pivit = array[end], tmp;
+	int pivit = array[end];
 	size_t p_index = start, i;
 	for (i = start; i < end; i++)
 	{
 		if (array[i] <= pivit)
 		{
-			tmp = array[i];
-			array[i] = array[p_index];
-			array[p_index] = tmp;
-			p_index++;
-			print_array(array, size);
+			swap(array, size, i, p_index);
 		}
 	}
-	array[end] = array[p_index];
-	array[p_index] = pivit;
-	print_array(array, size);
+	swap(array, size, end, p_index);
 	return (p_index);
 }
 void quick_sort_rec(int *array, size_t size, size_t start, size_t end)
