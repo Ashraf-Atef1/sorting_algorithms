@@ -34,6 +34,28 @@ listint_t *create_listint(const int *array, size_t size)
 }
 
 /**
+ * is_doubly_linked - Check if a doubly linked list is corectly linked
+ *
+ * @list: Pointer to the first node of the list to check
+ *
+ * Return: 1 if the list is correctly formated, 0 otherwise
+ */
+int is_doubly_linked(const listint_t *list)
+{
+	const listint_t *prev;
+
+	prev = list ? list->prev : NULL;
+	while (list)
+	{
+		if (list->prev != prev)
+			return (0);
+		prev = list;
+		list = list->next;
+	}
+	return (1);
+}
+
+/**
  * main - Entry point
  *
  * Return: Always 0
@@ -41,10 +63,10 @@ listint_t *create_listint(const int *array, size_t size)
 int main(void)
 {
 	listint_t *list;
-	int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
+	int array[] = {79, 47, 68, 87, 84, 91, 21, 32, 34, 2, 95, 31, 20, 22, 98, 39, 92, 41, 62, 1};
 	size_t n = sizeof(array) / sizeof(array[0]);
 
-	list = create_listint(NULL, 0);
+	list = create_listint(array, n);
 	if (!list)
 		return (1);
 	print_list(list);
@@ -52,5 +74,10 @@ int main(void)
 	cocktail_sort_list(&list);
 	printf("\n");
 	print_list(list);
+	if (!is_doubly_linked(list))
+	{
+		printf("The list is not correctly doubly linked !\n");
+		return (1);
+	}
 	return (0);
 }
