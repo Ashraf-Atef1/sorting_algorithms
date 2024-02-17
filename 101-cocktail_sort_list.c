@@ -50,6 +50,8 @@ void cocktail_sort_list(listint_t **list)
 			{
 				if (cur_node->next == tail)
 					tail = cur_node;
+				if (cur_node == head)
+					head = cur_node->next;
 				swap(list, cur_node, cur_node->next);
 				notSorted = 1;
 				continue;
@@ -62,6 +64,8 @@ void cocktail_sort_list(listint_t **list)
 			{
 				if (cur_node->prev == head)
 					head = cur_node;
+				if (cur_node == tail)
+					tail = cur_node->prev;
 				swap(list, cur_node->prev, cur_node);
 				notSorted = 1;
 				continue;
