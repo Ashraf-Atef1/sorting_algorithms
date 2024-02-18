@@ -9,7 +9,7 @@
 void counting_sort(int *array, size_t size)
 {
 	size_t i;
-	int *count_array, *sorted_array, max = 0;
+	int *count_array, *sorted_array, max = 0, tmp;
 
 	for (i = 0; i < size; i++)
 		if (array[i] > max)
@@ -22,7 +22,7 @@ void counting_sort(int *array, size_t size)
 	for (i = 1; i <= (size_t)max; i++)
 		count_array[i] += count_array[i - 1];
 	for (i = 0; i < size; i++)
-		sorted_array[count_array[array[i]]] = array[i];
+		tmp = array[i], sorted_array[count_array[tmp]] = tmp, count_array[tmp]--;
 	for (i = 0; i < size; i++)
 		array[i] = sorted_array[i];
 	print_array(count_array, max + 1);
