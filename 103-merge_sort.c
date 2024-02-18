@@ -29,7 +29,6 @@ void merge_sort_merge(int *array, int *buff_array, int start, int mid, int end)
 				 *l_array = buff_array + start, *r_array = buff_array + mid,
 				 *final_array = array + start, *final_buffer = buff_array + start;
 
-	printf("l_size:%d, r_size:%d\n", l_size, r_size);
 	printf("Merging...\n[left]: ");
 	print_array(l_array, l_size);
 	printf("[right]: ");
