@@ -1,7 +1,9 @@
 #include "sort.h"
 
 void merge_sort_rec(int *array, int *buff_array, int start, int end);
-void merge_sort_merge(int *array, int *buff_array, int start, int mid, int end);
+void merge_sort_merge(int *array, int *buff_array,
+					  int start, int mid, int end);
+
 /**
  * merge_sort - Sorting an array with a merge_sort algo.
  * @array: An array to be sorted
@@ -22,6 +24,16 @@ void merge_sort(int *array, size_t size)
 	merge_sort_rec(array, buff_array, 0, array_size);
 	free(buff_array);
 }
+
+/**
+ * merge_sort_merge - Merge two array in a sorted order.
+ * @array: An array to be sorted
+ * @buff_array: The buffer array
+ * @start: The start index
+ * @mid: The mid index
+ * @end: The end index
+ * Ashraf Atef
+ */
 void merge_sort_merge(int *array, int *buff_array, int start, int mid, int end)
 {
 	int i, j, k, l_size = mid - start, r_size = end - mid,
@@ -50,6 +62,15 @@ void merge_sort_merge(int *array, int *buff_array, int start, int mid, int end)
 	printf("[Done]: ");
 	print_array(final_array, final_size);
 }
+
+/**
+ * merge_sort_rec - Split an array into two halfes.
+ * @array: An array to be sorted
+ * @buff_array: The buffer array
+ * @start: The start index
+ * @end: The end index
+ * Ashraf Atef
+ */
 void merge_sort_rec(int *array, int *buff_array, int start, int end)
 {
 	int mid = start + (end - start) / 2;
