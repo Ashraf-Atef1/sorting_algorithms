@@ -25,17 +25,19 @@ void quick_sort_hoare(int *array, size_t size)
  */
 void quick_sort_hoare_rec(int *array, size_t size, int start, int end)
 {
-	int i = start, j = end - 1, pivit = array[j];
+	int i = start, j = end - 1, pivot = array[j];
 
 	if (start >= end - 1)
 		return;
-	for (; i != j;)
-		if (array[i] <= pivit)
-			i++;
-		else if (array[j] > pivit)
-			j--;
-		else
+	for (i = start - 1, j = end; i < j;)
+	{
+		while (array[++i] < pivot)
+			;
+		while (array[--j] > pivot)
+			;
+		if (i < j)
 			swap(array + i, array + j), print_array(array, size);
+	}
 	quick_sort_hoare_rec(array, size, start, i);
 	quick_sort_hoare_rec(array, size, i, end);
 }
