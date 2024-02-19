@@ -29,13 +29,15 @@ void quick_sort_hoare_rec(int *array, size_t size, int start, int end)
 
 	if (start >= end - 1)
 		return;
-	for (; i != j;)
-		if (array[i] < pivit)
+	for (; i < j;)
+	{
+		while (array[i] < pivit)
 			i++;
-		else if (array[j] > pivit)
+		while (array[j] > pivit)
 			j--;
-		else
+		if (i < j)
 			swap(array + i, array + j), print_array(array, size);
+	}
 	quick_sort_hoare_rec(array, size, start, i);
 	quick_sort_hoare_rec(array, size, i, end);
 }
