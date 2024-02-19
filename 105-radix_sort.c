@@ -18,6 +18,8 @@ void radix_sort(int *array, size_t size)
 			max = array[i];
 	for (i = 1; max / i != 0; i *= 10)
 		radix_sort_core(array, buffer_array, size, i), print_array(array, size);
+
+	free(buffer_array);
 }
 /**
  * swap - Swap two integers in an array.
