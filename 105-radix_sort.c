@@ -13,7 +13,7 @@ void radix_sort(int *array, size_t size)
 	int *buffer_array, max = 0;
 	size_t i = 0;
 
-	if (!array || !size)
+	if (!array || size < 2)
 		return;
 	buffer_array = malloc(sizeof(int) * size), max = 0;
 	for (i = 0; i < size; i++)
