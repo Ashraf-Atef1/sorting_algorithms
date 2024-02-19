@@ -10,11 +10,12 @@ void radix_sort_core(int *array, int *buffer_array, size_t size, size_t radix);
  */
 void radix_sort(int *array, size_t size)
 {
-	int *buffer_array = malloc(sizeof(int) * size), max = 0;
+	int *buffer_array, max = 0;
 	size_t i = 0;
 
 	if (!array || !size)
 		return;
+	buffer_array = malloc(sizeof(int) * size), max = 0;
 	for (i = 0; i < size; i++)
 		if (array[i] > max)
 			max = array[i];
