@@ -38,8 +38,8 @@ void bitonic_sort_spliter(int *array, size_t start, int cut_size, int dir)
 		   array_size, dir > 0 ? "UP" : "DOWN");
 	print_array(array + start, cut_size);
 
-	bitonic_sort_spliter(array, start, new_cut_size, dir);
-	bitonic_sort_spliter(array, start + new_cut_size, new_cut_size, dir ? 0 : 1);
+	bitonic_sort_spliter(array, start, new_cut_size, 1);
+	bitonic_sort_spliter(array, start + new_cut_size, new_cut_size, 0);
 	bitonic_sort_merge(array, start, cut_size, dir);
 
 	printf("Result [%d/%d] (%s):\n", cut_size,
