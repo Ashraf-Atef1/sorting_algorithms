@@ -30,7 +30,7 @@ void quick_sort_hoare_rec(int *array, size_t size, int start, int end)
 	if (start >= end - 1)
 		return;
 	for (; i != j;)
-		if (array[i] < pivit)
+		if (array[i] <= pivit)
 			i++;
 		else if (array[j] > pivit)
 			j--;
