@@ -66,6 +66,7 @@
     "vector": "c",
     "stdio.h": "c",
     "sort.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "random": "c"
   }
 }
