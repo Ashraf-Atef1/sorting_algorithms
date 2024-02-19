@@ -1,100 +1,87 @@
-#include "sort.h"
+// C++ implementation of Radix Sort
+
+#include <stdlib.h>
 #include <stdio.h>
 
-/**
- * print_array - Prints an array of integers
- *
- * @array: The array to be printed
- * @size: Number of elements in @array
- */
-void print_array(const int *array, size_t size)
+// A utility function to get maximum
+// value in arr[]
+int getMax(int arr[], int n)
 {
-	size_t i;
+	int mx = arr[0];
+	for (int i = 1; i < n; i++)
+		if (arr[i] > mx)
+			mx = arr[i];
+	return mx;
+}
 
-	i = 0;
-	while (array && i < size)
+// A function to do counting sort of arr[]
+// according to the digit
+// represented by exp.
+void countSort(int arr[], int n, int exp)
+{
+
+	// Output array
+	int output[n];
+	int i, count[10] = {0};
+
+	// Store count of occurrences
+	// in count[]
+	for (i = 0; i < n; i++)
+		count[(arr[i] / exp) % 10]++;
+	print(count, 10);
+	// Change count[i] so that count[i]
+	// now contains actual position
+	// of this digit in output[]
+	for (i = 1; i < 10; i++)
+		count[i] += count[i - 1];
+	print(count, 10);
+	// Build the output array
+	for (i = n - 1; i >= 0; i--)
 	{
-		if (i > 0)
-			printf(", ");
-		printf("%d", array[i]);
-		++i;
+		output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+		count[(arr[i] / exp) % 10]--;
 	}
+
+	// Copy the output array to arr[],
+	// so that arr[] now contains sorted
+	// numbers according to current digit
+	for (i = 0; i < n; i++)
+		arr[i] = output[i];
+}
+
+// The main function to that sorts arr[]
+// of size n using Radix Sort
+void radixsort(int arr[], int n)
+{
+
+	// Find the maximum number to
+	// know number of digits
+	int m = getMax(arr, n);
+
+	// Do counting sort for every digit.
+	// Note that instead of passing digit
+	// number, exp is passed. exp is 10^i
+	// where i is current digit number
+	for (int exp = 1; m / exp > 0; exp *= 10)
+		countSort(arr, n, exp), print(arr, n);
+}
+
+// A utility function to print an array
+void print(int arr[], int n)
+{
+	for (int i = 0; i < n; i++)
+		printf("%d ", arr[i]);
 	printf("\n");
 }
 
-void merge_sort_rec(int *array, int *buff_array, int start, int end);
-void merge_sort_merge(int *array, int *buff_array, int start, int mid, int end);
-/**
- * merge_sort - Sorting an array with a merge_sort algo.
- * @array: An array to be sorted
- * @size: The size of the array
- * Ashraf Atef
- */
-void merge_sort(int *array, size_t size)
+// Driver Code
+int main()
 {
-	int i;
-	int *buff_array;
+	int arr[] = {513, 986, 217, 765, 329};
+	int n = sizeof(arr) / sizeof(arr[0]);
 
-	if (!array || !size || size == 1)
-		return;
-
-	buff_array = (int *)calloc(sizeof(int), size);
-	for (i = 0; i < size; i++)
-		buff_array[i] = array[i];
-	printf("test1\n");
-	merge_sort_rec(array, buff_array, 0, size);
-	free(buff_array);
-}
-void merge_sort_merge(int *array, int *buff_array, int start, int mid, int end)
-{
-	int i, j = mid, k = start, l_size = mid - start, r_size = end - mid;
-
-	printf("test3\n");
-	printf("Merging...\n[left]: ");
-	print_array(buff_array + start, l_size);
-	printf("[right]: ");
-	print_array(buff_array + start, r_size);
-	for (i = start; i < l_size + r_size; i++)
-		if (k >= mid)
-			array[i] = buff_array[j++];
-		else if (j >= end)
-			array[i] = buff_array[k++];
-		else
-		{
-			if (buff_array[k] < buff_array[j])
-				array[i] = buff_array[k++];
-			else
-				array[i] = buff_array[j++];
-		}
-	printf("[Done]: ");
-	print_array(array + start, i);
-}
-void merge_sort_rec(int *array, int *buff_array, int start, int end)
-{
-	int mid = start + (start + end) / 2;
-
-	if (start >= end)
-		return;
-	merge_sort_rec(array, buff_array, start, mid);
-	merge_sort_rec(array, buff_array, mid, end);
-	printf("test2\n");
-	merge_sort_merge(array, buff_array, start, mid, end);
-}
-
-/**
- * main - Entry point
- *
- * Return: Always 0
- */
-int main(void)
-{
-	int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
-	size_t n = sizeof(array) / sizeof(array[0]);
-
-	print_array(array, n);
-	printf("\n");
-	merge_sort(array, n);
-	printf("\n");
-	print_array(array, n);
-	return (0);
+	// Function Call
+	radixsort(arr, n);
+	print(arr, n);
+	return 0;
 }
