@@ -13,17 +13,12 @@ void heap_sort(int *array, size_t size)
 {
 	int i;
 
+	if (!array || !size)
+		return;
 	for (i = (size / 2) - 1; i >= 0; i--)
 		heapify(array, size, i);
-	print_array(array, size);
-
 	for (i = size - 1; i > 0; i--)
-	{
-		swap(array, array + i);
-		print_array(array, size);
-		heapify(array, i, 0);
-	}
-	print_array(array, size);
+		swap(array, array + i), print_array(array, size), heapify(array, i, 0);
 }
 /**
  * swap - Swap two integers in an array.
