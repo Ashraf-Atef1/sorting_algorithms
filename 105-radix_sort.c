@@ -50,7 +50,7 @@ void radix_sort_core(int *array, int *buffer_array, size_t size, size_t radix)
 		count_array[(array[i] / radix) % 10]++;
 	for (i = 1; i < 10; i++)
 		count_array[i] += count_array[i - 1];
-	for (i = 0; i < size; i++)
+	for (i = size - 1; i < size; i--)
 		buffer_array[count_array[(array[i] / radix) % 10]-- - 1] = array[i];
 	for (i = 0; i < size; i++)
 		array[i] = buffer_array[i];
