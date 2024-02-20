@@ -1,151 +1,141 @@
 #include "deck.h"
 
-/**
- * swap - swap to list nodes then print this doubly linked list
- * @list: A doubly linked list
- * @first_node: first node pointer to swap
- * @second_node: second node pointer to swap
- * Ashraf Atef
- */
-void swap(deck_node_t **list, deck_node_t *first_node,
-		  deck_node_t *second_node)
-{
-	deck_node_t *tmp_node = second_node->next;
-
-	first_node = second_node->prev;
-	second_node->prev = first_node->prev;
-	second_node->next = first_node;
-	if (first_node->prev)
-		first_node->prev->next = second_node;
-	else
-		*list = second_node;
-	first_node->prev = second_node;
-	first_node->next = tmp_node;
-	if (tmp_node)
-		tmp_node->prev = first_node;
-}
+int _strcmp(const char *s1, const char *s2);
+char get_value(deck_node_t *card);
+void insertion_sort_deck_kind(deck_node_t **deck);
+void insertion_sort_deck_value(deck_node_t **deck);
+void sort_deck(deck_node_t **deck);
 
 /**
- * value_to_int - convert a card value to an integar
- * @str: A value string
- * Return: An integar
- * Ashraf Atef
+ * _strcmp - Compares two strings.
+ * @s1: The first string to be compared.
+ * @s2: The second string to be compared.
+ *
+ * Return: Positive byte difference if s1 > s2
+ *         0 if s1 == s2
+ *         Negative byte difference if s1 < s2
  */
-int value_to_int(const char *str)
+int _strcmp(const char *s1, const char *s2)
 {
-	switch (*str)
+	while (*s1 && *s2 && *s1 == *s2)
 	{
-	case 'A':
-		return (1);
-	case '1':
-		return (10);
-	case '2':
-		return (2);
-	case '3':
-		return (3);
-	case '4':
-		return (4);
-	case '5':
-		return (5);
-	case '6':
-		return (6);
-	case '7':
-		return (7);
-	case '8':
-		return (8);
-	case '9':
-		return (9);
-	case 'J':
-		return (11);
-	case 'Q':
-		return (12);
-	case 'K':
-		return (13);
+		s1++;
+		s2++;
 	}
+
+	if (*s1 != *s2)
+		return (*s1 - *s2);
 	return (0);
 }
 
 /**
- * nodes_compare - compare between two cards
- * @first: the first card
- * @second: the second card
- * Return: 1 if first is larger and zero otherwise
- * Ashraf Atef
+ * get_value - Get the numerical value of a card.
+ * @card: A pointer to a deck_node_t card.
+ *
+ * Return: The numerical value of the card.
  */
-int nodes_compare(card_t first, card_t second)
+char get_value(deck_node_t *card)
 {
-
-	if (first.kind == second.kind &&
-		value_to_int(first.value) > value_to_int(second.value))
-		return (1);
-	else if (first.kind > second.kind)
-		return (1);
-	else
+	if (_strcmp(card->card->value, "Ace") == 0)
 		return (0);
+	if (_strcmp(card->card->value, "1") == 0)
+		return (1);
+	if (_strcmp(card->card->value, "2") == 0)
+		return (2);
+	if (_strcmp(card->card->value, "3") == 0)
+		return (3);
+	if (_strcmp(card->card->value, "4") == 0)
+		return (4);
+	if (_strcmp(card->card->value, "5") == 0)
+		return (5);
+	if (_strcmp(card->card->value, "6") == 0)
+		return (6);
+	if (_strcmp(card->card->value, "7") == 0)
+		return (7);
+	if (_strcmp(card->card->value, "8") == 0)
+		return (8);
+	if (_strcmp(card->card->value, "9") == 0)
+		return (9);
+	if (_strcmp(card->card->value, "10") == 0)
+		return (10);
+	if (_strcmp(card->card->value, "Jack") == 0)
+		return (11);
+	if (_strcmp(card->card->value, "Queen") == 0)
+		return (12);
+	return (13);
 }
 
 /**
- * cocktail_sort_list_core - the core function
- * of the cocktail_sort_list function
- * @list: linked list
- * @head: the head of the linked list
- * @cur_node: the current node;
- * @tail: the tail of the linked list
- * Ashraf Atef
+ * insertion_sort_deck_kind - Sort a deck of cards from spades to diamonds.
+ * @deck: A pointer to the head of a deck_node_t doubly-linked list.
  */
-void cocktail_sort_list_core(deck_node_t **list, deck_node_t *head,
-							 deck_node_t *cur_node, deck_node_t *tail)
+void insertion_sort_deck_kind(deck_node_t **deck)
 {
-	int notSorted = 1;
+	deck_node_t *iter, *insert, *tmp;
 
-	while (notSorted)
+	for (iter = (*deck)->next; iter != NULL; iter = tmp)
 	{
-		notSorted = 0, cur_node = head;
-		while (cur_node != tail)
+		tmp = iter->next;
+		insert = iter->prev;
+		while (insert != NULL && insert->card->kind > iter->card->kind)
 		{
-			if (nodes_compare(*cur_node->card, *cur_node->next->card))
-			{
-				if (cur_node->next == tail)
-					tail = cur_node;
-				if (cur_node == head)
-					head = cur_node->next;
-				swap(list, cur_node, cur_node->next), notSorted = 1;
-				continue;
-			}
-			cur_node = cur_node->next;
+			insert->next = iter->next;
+			if (iter->next != NULL)
+				iter->next->prev = insert;
+			iter->prev = insert->prev;
+			iter->next = insert;
+			if (insert->prev != NULL)
+				insert->prev->next = iter;
+			else
+				*deck = iter;
+			insert->prev = iter;
+			insert = iter->prev;
 		}
-		while (cur_node != head)
-		{
-			if (nodes_compare(*cur_node->prev->card, *cur_node->card))
-			{
-				if (cur_node->prev == head)
-					head = cur_node;
-				if (cur_node == tail)
-					tail = cur_node->prev;
-				swap(list, cur_node->prev, cur_node), notSorted = 1;
-				continue;
-			}
-			cur_node = cur_node->prev;
-		}
-		if (head->next == tail)
-			break;
-		tail = tail->prev, head = head->next;
 	}
 }
 
 /**
- * sort_deck - Sorting a deck list with a cocktail_sort_list type.
- * @deck: An array to be sorted
- * Ashraf Atef
+ * insertion_sort_deck_value - Sort a deck of cards sorted from
+ *                             spades to diamonds from ace to king.
+ * @deck: A pointer to the head of a deck_node_t doubly-linked list.
+ */
+void insertion_sort_deck_value(deck_node_t **deck)
+{
+	deck_node_t *iter, *insert, *tmp;
+
+	for (iter = (*deck)->next; iter != NULL; iter = tmp)
+	{
+		tmp = iter->next;
+		insert = iter->prev;
+		while (insert != NULL &&
+			   insert->card->kind == iter->card->kind &&
+			   get_value(insert) > get_value(iter))
+		{
+			insert->next = iter->next;
+			if (iter->next != NULL)
+				iter->next->prev = insert;
+			iter->prev = insert->prev;
+			iter->next = insert;
+			if (insert->prev != NULL)
+				insert->prev->next = iter;
+			else
+				*deck = iter;
+			insert->prev = iter;
+			insert = iter->prev;
+		}
+	}
+}
+
+/**
+ * sort_deck - Sort a deck of cards from ace to king and
+ *             from spades to diamonds.
+ * @deck: A pointer to the head of a deck_node_t doubly-linked list.
  */
 void sort_deck(deck_node_t **deck)
 {
-	deck_node_t *head = NULL, *cur_node = NULL, *tail = NULL;
-
 	if (deck == NULL || *deck == NULL || (*deck)->next == NULL)
 		return;
-	head = cur_node = *deck;
-	for (tail = *deck; tail->next != NULL;)
-		tail = tail->next;
-	cocktail_sort_list_core(deck, head, cur_node, tail);
+
+	insertion_sort_deck_kind(deck);
+	insertion_sort_deck_value(deck);
 }
