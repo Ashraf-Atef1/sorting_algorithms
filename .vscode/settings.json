@@ -67,6 +67,13 @@
     "stdio.h": "c",
     "sort.h": "c",
     "stdlib.h": "c",
-    "random": "c"
+    "random": "c",
+    "deck.h": "c",
+    "optional": "c",
+    "system_error": "c",
+    "functional": "c",
+    "tuple": "c",
+    "type_traits": "c",
+    "utility": "c"
   }
 }
