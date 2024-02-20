@@ -7,7 +7,8 @@
  * @second_node: second node pointer to swap
  * Ashraf Atef
  */
-void swap(deck_node_t **list, deck_node_t *first_node, deck_node_t *second_node)
+void swap(deck_node_t **list, deck_node_t *first_node,
+		  deck_node_t *second_node)
 {
 	deck_node_t *tmp_node = second_node->next;
 
@@ -23,6 +24,13 @@ void swap(deck_node_t **list, deck_node_t *first_node, deck_node_t *second_node)
 	if (tmp_node)
 		tmp_node->prev = first_node;
 }
+
+/**
+ * value_to_int - convert a card value to an integar
+ * @str: A value string
+ * Return: An integar
+ * Ashraf Atef
+ */
 int value_to_int(const char *str)
 {
 	switch (*str)
@@ -56,6 +64,14 @@ int value_to_int(const char *str)
 	}
 	return (0);
 }
+
+/**
+ * nodes_compare - compare between two cards
+ * @first: the first card
+ * @second: the second card
+ * Return: 1 if first is larger and zero otherwise
+ * Ashraf Atef
+ */
 int nodes_compare(card_t first, card_t second)
 {
 
@@ -67,6 +83,7 @@ int nodes_compare(card_t first, card_t second)
 	else
 		return (0);
 }
+
 /**
  * cocktail_sort_list_core - the core function
  * of the cocktail_sort_list function
@@ -115,28 +132,20 @@ void cocktail_sort_list_core(deck_node_t **list, deck_node_t *head,
 		tail = tail->prev, head = head->next;
 	}
 }
-/**
- * cocktail_sort_list - Sorting a list with a cocktail_sort_list type
- * @list: A list to be sorted
- * Ashraf Atef
- */
-void cocktail_sort_list(deck_node_t **list)
-{
-	deck_node_t *head = NULL, *cur_node = NULL, *tail = NULL;
 
-	if (list == NULL || *list == NULL || (*list)->next == NULL)
-		return;
-	head = cur_node = *list;
-	for (tail = *list; tail->next != NULL;)
-		tail = tail->next;
-	cocktail_sort_list_core(list, head, cur_node, tail);
-}
 /**
- * sort_deck - Sorting a deck array.
+ * sort_deck - Sorting a deck list with a cocktail_sort_list type.
  * @deck: An array to be sorted
  * Ashraf Atef
  */
 void sort_deck(deck_node_t **deck)
 {
-	cocktail_sort_list(deck);
+	deck_node_t *head = NULL, *cur_node = NULL, *tail = NULL;
+
+	if (deck == NULL || *deck == NULL || (*deck)->next == NULL)
+		return;
+	head = cur_node = *deck;
+	for (tail = *deck; tail->next != NULL;)
+		tail = tail->next;
+	cocktail_sort_list_core(deck, head, cur_node, tail);
 }
